@@ -6,6 +6,7 @@ import LoginPage from './containers/LoginPage';
 import FormPage from './containers/FormPage';
 import TablePage from './containers/TablePage';
 import Dashboard from './containers/DashboardPage';
+import ReduxPage from './containers/ReduxPage';
 
 export default (
   <Route>
@@ -15,6 +16,7 @@ export default (
       <Route path="dashboard" component={Dashboard}/>
       <Route path="form" component={FormPage}/>
       <Route path="table" component={TablePage}/>
+	  <Route path="reduxapp" component={ReduxPage}/>
       <Route path="*" component={NotFoundPage}/>
     </Route>
   </Route>
