@@ -13,7 +13,11 @@ let data = [
 ];
 
 let Table = React.createClass({
-
+     getInitialState: function() {
+        return {data: this.props.data,
+                sort: true
+               };
+    },
     render: function() {
         let headerComponents = this.generateHeaders(),
             rowComponents = this.generateRows();
@@ -25,24 +29,48 @@ let Table = React.createClass({
             </table>
         );
     },
+  
 updateSort: function(){
-var sortedArr = this.props.data.sort(function(a, b) {
+  this.state.sort = !this.state.sort;
+  var that = this;
+  console.log(this.state.sort)
+var sortedArr = this.state.data.sort(function(a, b) {
   var nameA = a.firstName.toUpperCase(); // ignore upper and lowercase
   var nameB = b.firstName.toUpperCase(); // ignore upper and lowercase
+  if(that.state.sort){
   if (nameA < nameB) {
     return -1;
   }
   if (nameA > nameB) {
     return 1;
   }
+}
+  else{
+     if (nameA < nameB) {
+    return 1;
+  }
+  if (nameA > nameB) {
+    return -1;
+  }
+    
+  }
 
   // names must be equal
   return 0;
 });
+   this.setState({ data: sortedArr});
 console.log(sortedArr);
 return sortedArr;
 		
 },
+  componentDidUpdate:function(prevProps, prevState){
+    console.log("prev")
+    console.log(prevState);
+  },
+  shouldComponentUpdate: function(){
+    
+    return true;
+  },
     generateHeaders: function() {
         let cols = this.props.cols;  // [{key, label}]
 		let that = this;
@@ -53,8 +81,9 @@ return sortedArr;
     },
 
     generateRows: function() {
+      
         let cols = this.props.cols,  // [{key, label}]
-            data = this.props.data;
+            data = this.state.data;
 
         return data.map(function(item) {
             // handle the column data within each row
@@ -71,7 +100,7 @@ return sortedArr;
 //React.render(<Table cols={cols} data={data}/>, document.getElementById('example'));
 
 const TablePage = () => {
-	return (<Table cols={cols} data={data}/>);
+  return (<div><p>{JSON.stringify(data)}</p> <Table cols={cols} data={data}/> </div>);
 	
 }
 export default TablePage;
